@@ -13,3 +13,18 @@ A modo de ejemplo, se pueden desarrollar aplicaciones gráficas interactivas fun
 simples como videojuegos, y adquirir herramientas con las cuales se podrían trabajar
 simulaciones físicas, sistemas CAD, visualización arquitectónica, modelación de terrenos,
 entre otras aplicaciones posibles.
+
+## Tareas
+
+### Tarea 1
+
+Tarea que tuvo el objetivo de graficar un grupo de naves espaciales en 2D, implementando elemetos como el fondo, las estrellas (y su movimiento) y las naves en sí. Todo esto como un primer acercamiento a las funcionalidades básicas de la librería 'pyglet' de python.
+
+[]
+
+### Tarea 2
+
+### Tarea 3
+
+### Tarea 4
+
