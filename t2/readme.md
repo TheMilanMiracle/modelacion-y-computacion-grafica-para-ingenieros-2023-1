@@ -14,3 +14,4 @@
 - R: Reestrablecer el giro en el eje Z local.
 
 ## Preview
+<img src="https://github.com/TheMilanMiracle/modelacion-y-computacion-grafica-para-ingenieros-2023-1/assets/128413050/bc5e3ada-0656-45fd-9502-5aac1efd5753" width=600 lenght=350> 
