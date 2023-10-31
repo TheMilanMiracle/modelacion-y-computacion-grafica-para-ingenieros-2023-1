@@ -1,8 +1,8 @@
 # Tarea 1 - CC3501
 
 ## Requerimientos de la tarea
-- Implementar una ventana y hacer uso de las figuras primitivas de la librería pyglet.
-- Mínimo de tres naves, representadas con múltiples figuras.
+- Implementar una ventana usando la librería *pyglet*.
+- Se debe representar como mínimo 3 naves, construidas con figuras primitivas de *pyglet*.
 - El escenario debe contener estrellas.
 - Se debe simular el movimiento de las naves, esto con el movimiento de las estrellas.
 
