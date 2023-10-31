@@ -145,7 +145,7 @@ texPipeline = controller.tex_pipeline
 
 
 @controller.event
-def on_key_press(symbol):
+def on_key_press(symbol, modifier):
     """
     Makes the app react to a key press
     
@@ -184,7 +184,7 @@ def on_key_press(symbol):
         
         
 @controller.event
-def on_key_release(symbol):
+def on_key_release(symbol, modifier):
     """
     Makes the app react to a key release
     
@@ -237,6 +237,51 @@ def on_mouse_motion(x, y, dx, dy):
         
 
 class Airship:
+    """
+    Class that represent the main airship in the scene
+    this is the airship that can be controlled by the user
+    
+    Attributes
+    ----------
+    control : bool
+        stores if the LCTRL key is being pressed
+    angleZ : float
+        stores the angle of rotation of the airship in the z axis
+    angleZSpeed : float
+        stores the speed at which the airship rotates in the z axis
+    angleYLimit : float
+        stores the maximun rotation angle of the ship in the y axis
+    angleY : float
+        stores the angle of rotation of the airship in the y axis
+    angleYSpeed : float
+        stores the speed at which the airship rotates in the y axis
+    delta : float
+        stores the total displacement of the airship from the origin
+    deltaSpeed : float
+        stores the speed at which the airship moves in any axis
+    direction : float
+        stores the direction at which the airship points towards
+    translateVector : numpy.array
+        stores the vector of the position of the airship in axis x,y,z
+    movementLimit : int
+        stores the limit the airship can move in the xy plane
+    Zfloor : int
+        stores the minimun height the aiship can have in the z axis
+    Zceiling : int
+        stores the minimun height the aiship can have in the z axis
+    phi : float
+        stores the azimuthal angle of rotation of the airship
+    theta : float
+        stores the zenithal angle of rotation of the airship
+    
+    
+    Methods
+    -------
+    update()
+        updates the current position and orientation of the airship making sure it does not go out of bounds
+    updateCords(X,Y,Z)
+        allows to update the airship coordinates selectively
+    """
     def __init__(self):
         self.control = False
         
@@ -247,7 +292,7 @@ class Airship:
         self.angleY = self.angleYMultiplier = 0
         self.angleYSpeed = 0.02
         
-        self.delta = self.direction  = 0
+        self.delta = self.direction = 0
         self.deltaSpeed = 0.1
         self.translateVector = np.array([0,0,0],dtype = float)
         
@@ -255,7 +300,6 @@ class Airship:
         self.Zfloor = -2
         self.Zceiling = 5
         
-        self.test = 1
         # Movement/Rotation direction
         self.phi = 0 #
         self.theta = 0 #zenital
@@ -297,17 +341,27 @@ class Airship:
             self.updateCoords(None, None, True)
         else:
             if self.translateVector[2] > self.Zceiling:
-                print("c")
+                print("ceiling hit")
                 self.angleY -= self.angleY * 2
                 self.angleZ += np.pi
                 self.translateVector[2] -= 0.2
             if self.translateVector[2] < self.Zfloor:
-                print("f")
+                print("floor hit")
                 self.angleY += abs(self.angleY) * 2
                 self.angleZ += np.pi
                 self.translateVector[2] += 0.2
                    
     def updateCoords(self, X=False, Y =False, Z = False):
+        """
+        Paramaters
+        ----------
+        X : bool
+            whether or not to update the position in the x axis
+        Y : bool
+            whether or not to update the position in the y axis        
+        Z : bool
+            whether or not to update the position in the z axis
+        """
         # Spherical coordinates  
         if X == True:
             self.translateVector[0] += (self.delta) * np.cos(self.theta) * np.sin(self.phi) * -1 #X
@@ -326,20 +380,50 @@ class Airship:
 ## time events
 
 class timeEvents:
+    """
+    Class that represent the time passing in the scene
+    
+    Attributes
+    ----------
+    r1Rotation : float
+        angle of rotation for the type 1 of rocks
+    r2Rotation : float
+        angle of rotation for the type 2 of rocks
+    r1Speed : float
+        angular speed of the type 1 of rocks
+    r2Speed : float
+        angular speed of the type 2 of rocks
+    oscillation : float
+        displacement of the airship from the actual position to emulate an oscillation
+    dt : float
+        delta time for the airship
+    oscillationSpeed : float
+        speed at which the airship oscillates
+    oscillationA : float
+        amplitude of oscillation of the airship
+    ringOscillation : float
+        displacement of the rings from their actual position to emulate an oscillation
+    rDt : float
+        rings delta time
+    ringOscillationSpeed : float
+        speed at which the rings oscillates
+    ringA : float
+        amplitude of oscillation of the rings
+    """
     def __init__(self):
         self.r1Rotation = 0
         self.r2Rotation = 0
         self.r1Speed = 0.02
         self.r2Speed = 0.005
         
-        self.oscilation = 0
+        self.oscillation = 0
         self.dt = 0
-        self.oscilationSpeed = 0.04
-        self.oscilationA = 0.1
+        self.oscillationSpeed = 0.04
+        self.oscillationA = 0.1
         
-        self.ringOscilation = 0
+        self.ringOscillation = 0
         self.rDt = 0
-        self.ringOscilationSpeed = 0.06
+        self.ringOscillationSpeed = 0.06
         self.ringA = 0.1
         
         self.movingRockRotationSpeed = 0.2
@@ -363,14 +447,17 @@ class timeEvents:
 time = timeEvents()
 
 def update(dt):
+    """
+    Updates all time events
+    """
     time.r1Rotation += time.r1Speed
     time.r2Rotation += time.r2Speed
     
-    time.dt += time.oscilationSpeed
-    time.oscilation = time.oscilationA * np.sin(time.dt)
+    time.dt += time.oscillationSpeed
+    time.oscillation = time.oscillationA * np.sin(time.dt)
     
-    time.rDt += time.ringOscilationSpeed
-    time.ringOscilation = time.ringA * np.cos(time.rDt)
+    time.rDt += time.ringOscillationSpeed
+    time.ringOscillation = time.ringA * np.cos(time.rDt)
     
     time.movingRockTr1 += 0.1
     time.movingRockTr2 += 0.12
@@ -703,7 +790,7 @@ def on_draw():
     #airships movement
     a0.update()
     airshipRotation.transform = tr.matmul([tr.rotationZ(a0.angleZ), tr.rotationX(a0.angleY)])
-    airshipTranslation.transform = tr.translate(a0.translateVector[0], a0.translateVector[1], a0.translateVector[2] + (time.oscilation))
+    airshipTranslation.transform = tr.translate(a0.translateVector[0], a0.translateVector[1], a0.translateVector[2] + (time.oscillation))
     cameraPos.transform = tr.translate(a0.translateVector[0], a0.translateVector[1], a0.translateVector[2])
     shadow.transform = airshipRotation.transform
     a1Shadow.transform = a2Shadow.transform = tr.matmul([tr.rotationZ(-a0.angleZ)])
@@ -736,10 +823,10 @@ def on_draw():
     rock10.transform = tr.matmul([tr.translate(-20,-7,5),tr.scale(0.3,0.3,0.35), tr.rotationZ((np.pi * 9 / 5) + time.r2Rotation)])
     rockShadow10.transform = tr.matmul([tr.translate(-20,-7,1),tr.scale(0.3,0.3,0.01), tr.rotationZ((np.pi * 9 / 5) + time.r2Rotation)])
     
-    ring1.transform = tr.matmul([tr.translate(10,17, 5), tr.rotationX(np.pi / 2),tr.scale(0.6,0.7,0.4),tr.translate(0,time.ringOscilation,0)])
-    ringShadow1.transform = tr.matmul([tr.translate(10,17,1),tr.rotationX(np.pi / 2),tr.scale(0.6,0.7,0.4),tr.translate(0,time.ringOscilation,0)])
-    ring2.transform = tr.matmul([tr.translate(12,-22, 4), tr.rotationX(np.pi / 2),tr.rotationY(np.pi / 2),tr.scale(0.6,0.7,0.4),tr.translate(0,time.ringOscilation,0)])
-    ringShadow2.transform = tr.matmul([tr.translate(12,-22,0),tr.rotationX(np.pi / 2),tr.rotationY(np.pi / 2),tr.scale(0.6,0.7,0.4),tr.translate(0,time.ringOscilation,0)])
+    ring1.transform = tr.matmul([tr.translate(10,17, 5), tr.rotationX(np.pi / 2),tr.scale(0.6,0.7,0.4),tr.translate(0,time.ringOscillation,0)])
+    ringShadow1.transform = tr.matmul([tr.translate(10,17,1),tr.rotationX(np.pi / 2),tr.scale(0.6,0.7,0.4),tr.translate(0,time.ringOscillation,0)])
+    ring2.transform = tr.matmul([tr.translate(12,-22, 4), tr.rotationX(np.pi / 2),tr.rotationY(np.pi / 2),tr.scale(0.6,0.7,0.4),tr.translate(0,time.ringOscillation,0)])
+    ringShadow2.transform = tr.matmul([tr.translate(12,-22,0),tr.rotationX(np.pi / 2),tr.rotationY(np.pi / 2),tr.scale(0.6,0.7,0.4),tr.translate(0,time.ringOscillation,0)])
 
     movingRock1.transform = tr.matmul([tr.translate(time.rock1X,-35 + (time.movingRockTr1 % 65),0),tr.rotationX(time.movingRockRotation)])
     movingRock2.transform = tr.matmul([tr.translate(time.rock2X,-35 + (time.movingRockTr2 % 65),0),tr.rotationX(time.movingRockRotation)])
