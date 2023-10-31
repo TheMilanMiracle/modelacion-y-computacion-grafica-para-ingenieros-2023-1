@@ -18,9 +18,11 @@ entre otras aplicaciones posibles.
 
 ### [Tarea 1](https://github.com/TheMilanMiracle/modelacion-y-computacion-grafica-para-ingenieros-2023-1/tree/main/t1)
 
-Tarea que tuvo el objetivo de graficar un grupo de naves espaciales en 2D, implementando elemetos como el fondo, las estrellas (y su movimiento) y las naves en sí. Todo esto como un primer acercamiento a las funcionalidades básicas de la librería 'pyglet' de python.
+Tarea que tuvo el objetivo de graficar un grupo de naves espaciales en 2D, implementando elemetos como el fondo, las estrellas (y su movimiento) y las naves en sí. Todo esto como un primer acercamiento a las funcionalidades básicas de la librería *pyglet* de python.
 
 ### Tarea 2
+
+Tarea que tuvo el objetivo de pasar a una escena 3D, aprovechando ahora las librerías *pyglet* y *pyopengl* para crear un escenario con distintos objetos, naves espaciales y cámara dinámica.
 
 ### Tarea 3
 
