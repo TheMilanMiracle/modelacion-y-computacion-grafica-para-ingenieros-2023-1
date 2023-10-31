@@ -1,4 +1,4 @@
-# Tarea 1 - CC3501
+# Tarea 2 - CC3501
 
 ## Requerimientos de la tarea
 - El programa debe utilizar la librería *pyglet* para la creación de la ventana.
